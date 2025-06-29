@@ -1,8 +1,15 @@
+import { TagEntity } from '@/tag/tag.entity';
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TagService {
-  getAllTags() {
-    return [['All tags, including their counts, sorted by count descending']];
+  constructor(
+    @InjectRepository(TagEntity)
+    private readonly tagRespository: Repository<TagEntity>,
+  ) {}
+  async getAllTags() {
+    return await this.tagRespository.find();
   }
 }
